@@ -1,4 +1,3 @@
-
 data class Node<T>(
     var value: T,
     var next: Node<T>?
@@ -7,18 +6,25 @@ data class Node<T>(
 data class LinkedList2<T>(
     var head: Node<T>? = null
 ) {
-    fun add(value: T) {
+    private var lastNode: Node<T>? = null
+
+    fun addFirst(value:T) {
+        val newNode = Node(value = value, null)
+        newNode.next = head
+        head = newNode
+    }
+
+    fun addLast(value: T) {
         val newNode = Node(value = value, null)
 
         if (head == null) {
             head = newNode
+            lastNode = newNode
             return
         } else {
-            var current = head
-            while (current?.next != null) {
-                current = current.next
-            }
+            val current = lastNode
             current?.next = newNode
+            lastNode = newNode
         }
     }
 
@@ -54,6 +60,24 @@ data class LinkedList2<T>(
             println(current.value)
             current = current.next
         }
+    }
+
+    fun find(value:T): Boolean{
+        if (head?.value == value) {
+            return true
+        }
+
+        var current = head?.next
+
+        while (current != null){
+            if(current.value == value){
+                return true
+            }
+
+            current = current.next
+        }
+
+        return false
     }
 
     fun isEmpty(): Boolean {
